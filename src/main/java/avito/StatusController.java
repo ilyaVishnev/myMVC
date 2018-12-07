@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,15 +22,15 @@ public class StatusController {
     MechanicDAO mechanicDAO;
 
     @PostMapping
-    protected void setStatus(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected String setStatus(@RequestParam(required = false, name = "id") String id, @RequestParam(required = false, name = "status") String status) {
         final CarA car = mechanicDAO.func(session -> {
-            return session.get(CarA.class, Integer.parseInt(req.getParameter("id")));
+            return session.get(CarA.class, Integer.parseInt(id));
         });
-        car.setStatus(Boolean.parseBoolean(req.getParameter("status")));
+        car.setStatus(Boolean.parseBoolean(status));
         mechanicDAO.func(session -> {
             session.saveOrUpdate(car);
             return car;
         });
-        req.getRequestDispatcher("/WEB-INF/views/description.jsp").forward(req, resp);
+        return "description";
     }
 }

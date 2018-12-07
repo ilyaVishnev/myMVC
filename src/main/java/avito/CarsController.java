@@ -24,11 +24,11 @@ import java.util.List;
 public class CarsController {
 
     @Autowired
-     MechanicDAO mechanicDAO;
+    MechanicDAO mechanicDAO;
 
     @GetMapping
     @ResponseBody
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected JSONObject doGet() {
         final JSONArray brandArray = new JSONArray();
         final JSONArray modelArray = new JSONArray();
         final JSONArray gearboxArray = new JSONArray();
@@ -120,6 +120,6 @@ public class CarsController {
             yearsArray.add(jsonObj);
         }
         jsonSend.put("yearsArray", yearsArray);
-        resp.getWriter().print(jsonSend);
+        return jsonSend;
     }
 }

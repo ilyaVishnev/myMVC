@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/*@WebFilter(filterName = "FilterSign", urlPatterns = "/*")*/
 public class FilterSign implements Filter {
 
     private FilterConfig filterConfig;

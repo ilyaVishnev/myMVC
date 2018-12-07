@@ -7,10 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +22,11 @@ public class FilterForList {
 
     @Autowired
     private MechanicDAO mechanicDAO;
-    private final String[] arrayParametrs = new String[3];
+    private final String[] arrayParametrs = {"off","off","off"};
 
     @GetMapping
     @ResponseBody
-    protected void getContextMenu(HttpServletResponse resp) throws IOException {
+    protected String getContextMenu() {
         JSONObject send = new JSONObject();
         JSONArray array = new JSONArray();
         Iterator<Brand> iterator = mechanicDAO.func(session -> {
@@ -47,14 +44,14 @@ public class FilterForList {
         send.put("havePhoto", arrayParametrs[1]);
         send.put("today", arrayParametrs[2]);
         send.put("array", array);
-        resp.getWriter().println(send);
+        return send.toString();
     }
 
     @PostMapping
-    protected void goToList(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        arrayParametrs[0] = req.getParameter("brands");
-        arrayParametrs[1] = req.getParameter("photo");
-        arrayParametrs[2] = req.getParameter("today");
-        req.getRequestDispatcher("/WEB-INF/views/list.jsp").forward(req, resp);
+    protected String goToList(@RequestParam(required = false, name = "brands") String brands, @RequestParam(required = false, name = "photo") String photo, @RequestParam(required = false, name = "today") String today) {
+        arrayParametrs[0] = brands;
+        arrayParametrs[1] = photo == null ? "off" : photo;
+        arrayParametrs[2] = today == null ? "off" : today;
+        return "list";
     }
 }

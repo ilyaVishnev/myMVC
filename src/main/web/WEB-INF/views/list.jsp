@@ -43,7 +43,7 @@
                 dataType: 'json',
                 url: '/filterFlist',
                 success: function (data) {
-                    var content = '<option value="null" selected>Выберите марку</option>';
+                    var content = '<option value="off" selected>Выберите марку</option>';
                     var array = data.array;
                     myFilter.today = data.today;
                     myFilter.idBrand = data.idBrand;
@@ -69,8 +69,8 @@
                 method: 'POST',
                 dataType: 'json',
                 url: '/list',
-                data: myFilter.idBrand + "," + myFilter.photo + "," + myFilter.today,
-                contentType: 'text',
+                data: JSON.stringify(myFilter),
+                contentType: 'application/json',
                 success: function (data) {
                     var cars = data.array;
                     var content = " <div class=\"tr\">\n" +

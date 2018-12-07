@@ -2,6 +2,9 @@ package avito;
 
 import DAO.MechanicDAO;
 import cars_annot.CarA;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.hibernate.query.Query;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,42 +30,28 @@ public class ListController {
     private MechanicDAO mechanicDAO;
 
     @GetMapping
-    protected String sendToList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected String sendToList() {
         return "list";
     }
 
     @PostMapping
     @ResponseBody
-    protected void sendList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(req.getInputStream()));
-        String ajax = "";
-        if (br != null) {
-            ajax = br.readLine();
-        }
-        HashMap<String, String> map = new LinkedHashMap<>();
-        map.put("idBrand", "null");
-        map.put("havePhoto", "null");
-        map.put("today", "null");
-        List<String> listFilter = Arrays.asList(ajax.split(","));
-        Iterator<String> iterator = listFilter.iterator();
-        Iterator EntryIterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Entry<String, String> entry = (Entry) EntryIterator.next();
-            entry.setValue(iterator.next());
-        }
+    protected String sendList(@RequestBody(required = false) String text) {
+        HashMap<String, String> map = new Gson().fromJson(text, new TypeToken<HashMap<String, String>>() {
+        }.getType());
         String firstResult = "from CarA c";
         boolean firstFilter = true;
-        if (!map.get("idBrand").equals("null")) {
+        if (!map.get("idBrand").equals("off")) {
             firstResult += firstFilter ? " where c.engineA.model.brand.id=" +
                     map.get("idBrand") : " and c.engineA.model.brand.id=" +
                     map.get("idBrand");
             firstFilter = false;
         }
-        if (!map.get("havePhoto").equals("null")) {
+        if (!map.get("photo").equals("off")) {
             firstResult += firstFilter ? " where c.photo!=''" : " and c.photo!=''";
             firstFilter = false;
         }
-        if (!map.get("today").equals("null")) {
+        if (!map.get("today").equals("off")) {
             firstResult += firstFilter ? " where year(c.date) = year(current_date()) and month(c.date) = month(current_date) and day(c.date)=day(current_date )" :
                     " and year(c.date) = year(current_date()) and month(c.date) = month(current_date) and day(c.date)=day(current_date )";
             firstFilter = false;
@@ -88,6 +78,6 @@ public class ListController {
             jsonArray.add(jsonObject);
         }
         send.put("array", jsonArray);
-        resp.getWriter().println(send);
+        return send.toString();
     }
 }

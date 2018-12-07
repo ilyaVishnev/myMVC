@@ -4,9 +4,8 @@ import DAO.MechanicDAO;
 import cars_annot.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,28 +25,26 @@ public class CreateController {
     }
 
     @PostMapping
-    protected String saveCar(HttpSession mySession, HttpServletRequest req) {
-
+    protected String saveCar(@SessionAttribute("user") Holder holder, @RequestParam MultiValueMap parameters) {
         EngineA engineA = mechanicDAO.func(session -> {
-            return session.get(EngineA.class, Integer.parseInt(req.getParameter("engine")));
+            return session.get(EngineA.class, Integer.parseInt((String) parameters.getFirst("engine")));
         });
         GearboxA gearboxA = mechanicDAO.func(session -> {
-            return session.get(GearboxA.class, Integer.parseInt(req.getParameter("gearbox")));
+            return session.get(GearboxA.class, Integer.parseInt((String) parameters.getFirst("gearbox")));
         });
         CarBodyA carBodyA = mechanicDAO.func(session -> {
-            return session.get(CarBodyA.class, Integer.parseInt(req.getParameter("carbody")));
+            return session.get(CarBodyA.class, Integer.parseInt((String) parameters.getFirst("carbody")));
         });
-        Holder holder = (Holder) mySession.getAttribute("user");
         CarA car = new CarA();
-        car.setPrice(Integer.parseInt(req.getParameter("price")));
+        car.setPrice(Integer.parseInt((String) parameters.getFirst("price")));
         car.setEngineA(engineA);
         car.setHolder(holder);
         car.setCarBodyA(carBodyA);
         car.setGearboxA(gearboxA);
-        car.setDescription(req.getParameter("desc"));
-        car.setStatus(Boolean.parseBoolean(req.getParameter("status")));
-        car.setYear(Integer.parseInt(req.getParameter("year")));
-        car.setPhoto(req.getParameter("myimage"));
+        car.setDescription((String) parameters.getFirst("desc"));
+        car.setStatus(Boolean.parseBoolean((String) parameters.getFirst("status")));
+        car.setYear(Integer.parseInt((String) parameters.getFirst("year")));
+        car.setPhoto((String) parameters.getFirst("myimage"));
         mechanicDAO.func(session -> {
             session.saveOrUpdate(car);
             return car;

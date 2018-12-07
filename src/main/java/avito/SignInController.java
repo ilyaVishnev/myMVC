@@ -21,19 +21,19 @@ public class SignInController {
     MechanicDAO mechanicDAO;
 
     @GetMapping
-    protected void goToAccount(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException {
-        req.getRequestDispatcher("/WEB-INF/views/signIn.jsp").forward(req, resp);
+    protected String goToAccount()  {
+        return "signIn";
     }
 
     @PostMapping
-    protected void toList(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException{
+    protected String toList(HttpServletRequest req) {
         Holder holder = mechanicDAO.isCredential(req.getParameter("login"), req.getParameter("password"));
         if (holder == null) {
             req.setAttribute("error", "there isnt such user");
-            req.getRequestDispatcher("/WEB-INF/views/signIn.jsp").forward(req, resp);
+            return "signIn";
         } else {
             req.getSession().setAttribute("user", holder);
-            req.getRequestDispatcher("/WEB-INF/views/list.jsp").forward(req, resp);
+            return "list";
         }
     }
 }
