@@ -21,9 +21,9 @@ public class Model {
     private String name;
     @JsonView(Views.Public.class)
     private Brand brand;
-    private List<CarBodyA> bodies = new ArrayList<>();
-    private List<EngineA> engines = new ArrayList<>();
-    private List<GearboxA> gerboxes = new ArrayList<>();
+    private List<CarBody> bodies = new ArrayList<>();
+    private List<Engine> engines = new ArrayList<>();
+    private List<Gearbox> gerboxes = new ArrayList<>();
 
     public Model() {
     }
@@ -48,30 +48,31 @@ public class Model {
         this.name = name;
     }
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "model")
-    public List<CarBodyA> getBodies() {
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "model")
+    public List<CarBody> getBodies() {
         return bodies;
     }
 
-    public void setBodies(List<CarBodyA> bodies) {
+    public void setBodies(List<CarBody> bodies) {
         this.bodies = bodies;
     }
 
-    @OneToMany( cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "model")
-    public List<EngineA> getEngines() {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "model")
+    public List<Engine> getEngines() {
         return engines;
     }
 
-    public void setEngines(List<EngineA> engines) {
+    public void setEngines(List<Engine> engines) {
         this.engines = engines;
     }
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "model")
-    public List<GearboxA> getGerboxes() {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "model")
+    public List<Gearbox> getGerboxes() {
         return gerboxes;
     }
 
-    public void setGerboxes(List<GearboxA> gerboxes) {
+    public void setGerboxes(List<Gearbox> gerboxes) {
         this.gerboxes = gerboxes;
     }
 

@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Component
 @Entity
 @Table(name = "cars")
-public class CarA {
+public class Car {
 
     @JsonView(Views.Public.class)
     private int id;
@@ -19,10 +19,10 @@ public class CarA {
     @JsonView(Views.Public.class)
     private Timestamp date = new Timestamp(System.currentTimeMillis());
     private Holder holder;
-    private CarBodyA carBodyA;
-    private EngineA engineA;
+    private CarBody carBody;
+    private Engine engine;
     @JsonView(Views.Public.class)
-    private GearboxA gearboxA;
+    private Gearbox gearbox;
     private String description;
     @JsonView(Views.Public.class)
     private Boolean status;
@@ -30,7 +30,7 @@ public class CarA {
     private String photo;
     private int year;
 
-    public CarA() {
+    public Car() {
     }
 
     public void setId(int id) {
@@ -67,32 +67,32 @@ public class CarA {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cb", referencedColumnName = "id")
-    public CarBodyA getCarBodyA() {
-        return carBodyA;
+    public CarBody getCarBody() {
+        return carBody;
     }
 
-    public void setCarBodyA(CarBodyA carBodyA) {
-        this.carBodyA = carBodyA;
+    public void setCarBody(CarBody carBodyA) {
+        this.carBody = carBodyA;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_en", referencedColumnName = "id")
-    public EngineA getEngineA() {
-        return engineA;
+    public Engine getEngine() {
+        return engine;
     }
 
-    public void setEngineA(EngineA engineA) {
-        this.engineA = engineA;
+    public void setEngine(Engine engineA) {
+        this.engine = engineA;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_box", referencedColumnName = "id")
-    public GearboxA getGearboxA() {
-        return gearboxA;
+    public Gearbox getGearbox() {
+        return gearbox;
     }
 
-    public void setGearboxA(GearboxA gearboxA) {
-        this.gearboxA = gearboxA;
+    public void setGearbox(Gearbox gearbox) {
+        this.gearbox = gearbox;
     }
 
 
@@ -155,7 +155,7 @@ public class CarA {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        CarA car = (CarA) o;
+        Car car = (Car) o;
         if (this.getId() == car.getId()) {
             return true;
         }

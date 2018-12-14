@@ -1,7 +1,5 @@
 package cars_annot;
 
-//import org.hibernate.mapping.Set;
-
 import avito.Views;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.stereotype.Component;
@@ -12,8 +10,8 @@ import java.util.List;
 
 @Component
 @Entity
-@Table(name = "carbody")
-public class CarBodyA {
+@Table(name = "engine")
+public class Engine {
 
     @JsonView(Views.Public.class)
     private int id;
@@ -21,9 +19,16 @@ public class CarBodyA {
     private String description;
     @JsonView(Views.Public.class)
     private Model model;
-    private List<CarA> cars=new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
     @JsonView(Views.Public.class)
     private int year;
+
+    public Engine() {
+    }
+
+    public Engine(Integer id) {
+        this.setId(id);
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +49,8 @@ public class CarBodyA {
         this.description = description;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_m",referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_m", referencedColumnName = "id")
     public Model getModel() {
         return model;
     }
@@ -63,12 +68,12 @@ public class CarBodyA {
         this.year = year;
     }
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "carBodyA")
-    public List<CarA> getCars() {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "engine")
+    public List<Car> getCars() {
         return cars;
     }
 
-    public void setCars(List<CarA> cars) {
+    public void setCars(List<Car> cars) {
         this.cars = cars;
     }
 
@@ -86,7 +91,7 @@ public class CarBodyA {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        CarBodyA car = (CarBodyA) o;
+        Engine car = (Engine) o;
         if (this.getId() == car.getId()) {
             return true;
         }

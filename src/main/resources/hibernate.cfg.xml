@@ -6,10 +6,10 @@
         <property name="connection.password">pobeda</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <mapping class="cars_annot.CarA"/>
-        <mapping class="cars_annot.CarBodyA"/>
-        <mapping class="cars_annot.EngineA"/>
-        <mapping class="cars_annot.GearboxA"/>
+        <mapping class="cars_annot.Car"/>
+        <mapping class="cars_annot.CarBody"/>
+        <mapping class="cars_annot.Engine"/>
+        <mapping class="cars_annot.Gearbox"/>
         <mapping class="cars_annot.Model"/>
         <mapping class="cars_annot.Brand"/>
         <mapping class="cars_annot.Year"/>

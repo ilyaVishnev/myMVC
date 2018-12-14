@@ -13,7 +13,7 @@ public class Holder {
     private int id;
     private String login;
     private String password;
-    private List<CarA> cars = new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
 
     public Holder() {
     }
@@ -47,11 +47,11 @@ public class Holder {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "holder")
-    public List<CarA> getCars() {
+    public List<Car> getCars() {
         return cars;
     }
 
-    public void setCars(List<CarA> cars) {
+    public void setCars(List<Car> cars) {
         this.cars = cars;
     }
 

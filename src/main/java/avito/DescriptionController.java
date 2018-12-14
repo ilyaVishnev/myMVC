@@ -1,7 +1,7 @@
 package avito;
 
 import DAO.MechanicDAO;
-import cars_annot.CarA;
+import cars_annot.Car;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,14 +23,14 @@ public class DescriptionController {
     @GetMapping
     @ResponseBody
     protected JSONObject getDesc() {
-        CarA car = mechanicDAO.func(session -> {
-            return session.get(CarA.class, Integer.parseInt(parametrs[0]));
+        Car car = mechanicDAO.func(session -> {
+            return session.get(Car.class, Integer.parseInt(parametrs[0]));
         });
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("desc", car.getDescription());
-        jsonObject.put("carbody", car.getCarBodyA().getDescription());
-        jsonObject.put("engine", car.getEngineA().getDescription());
-        jsonObject.put("gearbox", car.getGearboxA().getDescription());
+        jsonObject.put("carbody", car.getCarBody().getDescription());
+        jsonObject.put("engine", car.getEngine().getDescription());
+        jsonObject.put("gearbox", car.getGearbox().getDescription());
         jsonObject.put("photo", car.getPhoto());
         jsonObject.put("price", car.getPrice());
         jsonObject.put("status", car.getStatus());

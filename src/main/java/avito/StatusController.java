@@ -1,7 +1,7 @@
 package avito;
 
 import DAO.MechanicDAO;
-import cars_annot.CarA;
+import cars_annot.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +23,8 @@ public class StatusController {
 
     @PostMapping
     protected String setStatus(@RequestParam(required = false, name = "id") String id, @RequestParam(required = false, name = "status") String status) {
-        final CarA car = mechanicDAO.func(session -> {
-            return session.get(CarA.class, Integer.parseInt(id));
+        final Car car = mechanicDAO.func(session -> {
+            return session.get(Car.class, Integer.parseInt(id));
         });
         car.setStatus(Boolean.parseBoolean(status));
         mechanicDAO.func(session -> {

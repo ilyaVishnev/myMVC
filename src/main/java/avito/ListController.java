@@ -1,7 +1,7 @@
 package avito;
 
 import DAO.MechanicDAO;
-import cars_annot.CarA;
+import cars_annot.Car;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,11 +39,11 @@ public class ListController {
     protected String sendList(@RequestBody(required = false) String text) {
         HashMap<String, String> map = new Gson().fromJson(text, new TypeToken<HashMap<String, String>>() {
         }.getType());
-        String firstResult = "from CarA c";
+        String firstResult = "from Car c";
         boolean firstFilter = true;
         if (!map.get("idBrand").equals("off")) {
-            firstResult += firstFilter ? " where c.engineA.model.brand.id=" +
-                    map.get("idBrand") : " and c.engineA.model.brand.id=" +
+            firstResult += firstFilter ? " where c.engine.model.brand.id=" +
+                    map.get("idBrand") : " and c.engine.model.brand.id=" +
                     map.get("idBrand");
             firstFilter = false;
         }
@@ -59,22 +59,22 @@ public class ListController {
         final String result = firstResult;
         JSONArray jsonArray = new JSONArray();
         JSONObject send = new JSONObject();
-        List<CarA> myCars = mechanicDAO.func(session -> {
+        List<Car> myCars = mechanicDAO.func(session -> {
             final Query query = session.createQuery(result);
-            List<CarA> cars = query.list();
+            List<Car> cars = query.list();
             return cars;
         });
-        Iterator<CarA> iterator1 = myCars.iterator();
+        Iterator<Car> iterator1 = myCars.iterator();
         while (iterator1.hasNext()) {
-            CarA car = iterator1.next();
+            Car car = iterator1.next();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", car.getId());
-            jsonObject.put("model", car.getGearboxA().getModel().toString());
+            jsonObject.put("model", car.getGearbox().getModel().toString());
             jsonObject.put("price", car.getPrice());
             jsonObject.put("photo", car.getPhoto());
             jsonObject.put("status", car.getStatus());
             jsonObject.put("date", 2000 + car.getDate().getYear() - 100 + " " + car.getDate().getMonth() + " " + (car.getDate().getDate() + 1));
-            jsonObject.put("brandId", car.getGearboxA().getModel().getBrand().getId());
+            jsonObject.put("brandId", car.getGearbox().getModel().getBrand().getId());
             jsonArray.add(jsonObject);
         }
         send.put("array", jsonArray);

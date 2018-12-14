@@ -63,14 +63,14 @@ public class CarsController {
             modelArray.add(jsonObj);
         }
         jsonSend.put("modelArray", modelArray);
-        Iterator<GearboxA> iterator2 = mechanicDAO.func(session -> {
-            final Query query = session.createQuery("from GearboxA ");
-            List<GearboxA> boxes = query.list();
+        Iterator<Gearbox> iterator2 = mechanicDAO.func(session -> {
+            final Query query = session.createQuery("from Gearbox ");
+            List<Gearbox> boxes = query.list();
             return boxes;
         }).iterator();
         while (iterator2.hasNext()) {
             JSONObject jsonObj = new JSONObject();
-            GearboxA gearboxA = iterator2.next();
+            Gearbox gearboxA = iterator2.next();
             jsonObj.put("id", gearboxA.getId());
             jsonObj.put("desc", gearboxA.getDescription());
             jsonObj.put("IdM", gearboxA.getModel().getId());
@@ -78,14 +78,14 @@ public class CarsController {
             gearboxArray.add(jsonObj);
         }
         jsonSend.put("gearboxArray", gearboxArray);
-        Iterator<EngineA> iterator3 = mechanicDAO.func(session -> {
-            final Query query = session.createQuery("from EngineA ");
-            List<EngineA> engineAS = query.list();
+        Iterator<Engine> iterator3 = mechanicDAO.func(session -> {
+            final Query query = session.createQuery("from Engine ");
+            List<Engine> engineAS = query.list();
             return engineAS;
         }).iterator();
         while (iterator3.hasNext()) {
             JSONObject jsonObj = new JSONObject();
-            EngineA engineA = iterator3.next();
+            Engine engineA = iterator3.next();
             jsonObj.put("id", engineA.getId());
             jsonObj.put("desc", engineA.getDescription());
             jsonObj.put("IdM", engineA.getModel().getId());
@@ -93,14 +93,14 @@ public class CarsController {
             engineArray.add(jsonObj);
         }
         jsonSend.put("engineArray", engineArray);
-        Iterator<CarBodyA> iterator4 = mechanicDAO.func(session -> {
-            final Query query = session.createQuery("from CarBodyA ");
-            List<CarBodyA> carBodyAS = query.list();
+        Iterator<CarBody> iterator4 = mechanicDAO.func(session -> {
+            final Query query = session.createQuery("from CarBody ");
+            List<CarBody> carBodyAS = query.list();
             return carBodyAS;
         }).iterator();
         while (iterator4.hasNext()) {
             JSONObject jsonObj = new JSONObject();
-            CarBodyA carBodyA = iterator4.next();
+            CarBody carBodyA = iterator4.next();
             jsonObj.put("id", carBodyA.getId());
             jsonObj.put("desc", carBodyA.getDescription());
             jsonObj.put("IdM", carBodyA.getModel().getId());

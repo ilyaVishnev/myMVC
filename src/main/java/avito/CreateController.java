@@ -26,21 +26,12 @@ public class CreateController {
 
     @PostMapping
     protected String saveCar(@SessionAttribute("user") Holder holder, @RequestParam MultiValueMap parameters) {
-        EngineA engineA = mechanicDAO.func(session -> {
-            return session.get(EngineA.class, Integer.parseInt((String) parameters.getFirst("engine")));
-        });
-        GearboxA gearboxA = mechanicDAO.func(session -> {
-            return session.get(GearboxA.class, Integer.parseInt((String) parameters.getFirst("gearbox")));
-        });
-        CarBodyA carBodyA = mechanicDAO.func(session -> {
-            return session.get(CarBodyA.class, Integer.parseInt((String) parameters.getFirst("carbody")));
-        });
-        CarA car = new CarA();
+        Car car = new Car();
         car.setPrice(Integer.parseInt((String) parameters.getFirst("price")));
-        car.setEngineA(engineA);
+        car.setEngine(new Engine(Integer.parseInt((String) parameters.getFirst("engine"))));
         car.setHolder(holder);
-        car.setCarBodyA(carBodyA);
-        car.setGearboxA(gearboxA);
+        car.setCarBody(new CarBody(Integer.parseInt((String) parameters.getFirst("carbody"))));
+        car.setGearbox(new Gearbox(Integer.parseInt((String) parameters.getFirst("gearbox"))));
         car.setDescription((String) parameters.getFirst("desc"));
         car.setStatus(Boolean.parseBoolean((String) parameters.getFirst("status")));
         car.setYear(Integer.parseInt((String) parameters.getFirst("year")));

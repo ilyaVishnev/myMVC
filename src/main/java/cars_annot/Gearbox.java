@@ -1,5 +1,7 @@
 package cars_annot;
 
+//import org.hibernate.mapping.Set;
+
 import avito.Views;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.stereotype.Component;
@@ -10,8 +12,8 @@ import java.util.List;
 
 @Component
 @Entity
-@Table(name = "engine")
-public class EngineA {
+@Table(name = "gearbox")
+public class Gearbox {
 
     @JsonView(Views.Public.class)
     private int id;
@@ -19,11 +21,19 @@ public class EngineA {
     private String description;
     @JsonView(Views.Public.class)
     private Model model;
-    private List<CarA> cars=new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
     @JsonView(Views.Public.class)
     private int year;
 
-    public EngineA() {
+    public Gearbox() {
+    }
+
+    public Gearbox(Integer id) {
+        this.setId(id);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Id
@@ -32,8 +42,8 @@ public class EngineA {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Column(name = "description")
@@ -41,12 +51,8 @@ public class EngineA {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_m",referencedColumnName = "id")
+    @JoinColumn(name = "id_m", referencedColumnName = "id")
     public Model getModel() {
         return model;
     }
@@ -64,18 +70,18 @@ public class EngineA {
         this.year = year;
     }
 
-    @OneToMany( cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "engineA")
-    public List<CarA> getCars() {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "gearbox")
+    public List<Car> getCars() {
         return cars;
     }
 
-    public void setCars(List<CarA> cars) {
+    public void setCars(List<Car> cars) {
         this.cars = cars;
     }
 
     @Override
     public String toString() {
-        return this.getDescription();
+        return this.description;
     }
 
     @Override
@@ -87,7 +93,7 @@ public class EngineA {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        EngineA car = (EngineA) o;
+        Gearbox car = (Gearbox) o;
         if (this.getId() == car.getId()) {
             return true;
         }
