@@ -25,17 +25,9 @@ public class CreateController {
     }
 
     @PostMapping
-    protected String saveCar(@SessionAttribute("user") Holder holder, @RequestParam MultiValueMap parameters) {
-        Car car = new Car();
-        car.setPrice(Integer.parseInt((String) parameters.getFirst("price")));
-        car.setEngine(new Engine(Integer.parseInt((String) parameters.getFirst("engine"))));
+    protected String saveCar(@SessionAttribute("user") Holder holder, @ModelAttribute("car") CarForm carForm) {
+        Car car = carForm.getCar();
         car.setHolder(holder);
-        car.setCarBody(new CarBody(Integer.parseInt((String) parameters.getFirst("carbody"))));
-        car.setGearbox(new Gearbox(Integer.parseInt((String) parameters.getFirst("gearbox"))));
-        car.setDescription((String) parameters.getFirst("desc"));
-        car.setStatus(Boolean.parseBoolean((String) parameters.getFirst("status")));
-        car.setYear(Integer.parseInt((String) parameters.getFirst("year")));
-        car.setPhoto((String) parameters.getFirst("myimage"));
         mechanicDAO.func(session -> {
             session.saveOrUpdate(car);
             return car;

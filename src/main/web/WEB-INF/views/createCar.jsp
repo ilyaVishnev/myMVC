@@ -78,7 +78,6 @@
                 }
             })
         })
-
         function fullFields(yearSel, modelSel, gearboxes, engines, carBodies) {
             var content = '';
             for (var i = 0; i < gearboxes.length; i++) {
@@ -122,20 +121,20 @@
     </script>
 </head>
 <body>
-<form name="createForm" action="${pageContext.servletContext.contextPath}/create" method="post" id="createForm">
     <p>Введите марку авто : <select id="brand" name="brand" class="form-control">
     </select></p>
     <p>Введите модель авто : <select id="model" name="model" class="form-control">
     </select></p>
+    <form name="createForm" action="${pageContext.servletContext.contextPath}/create" method="post" id="createForm">
     <p>Выберите год производства : <select id="year" name="year" class="form-control">
     </select></p>
     <p>Коробка скоростей : <select id="gearbox" name="gearbox" class="form-control">
     </select></p>
-    <p>Выберите корпус : <select id="carBody" name="carbody" class="form-control">
+    <p>Выберите корпус : <select id="carBody" name="carBody" class="form-control">
     </select></p>
     <p>Выберите мотор : <select id="engine" name="engine" class="form-control">
     </select></p>
-    <p>Введите описание : <textarea name="desc" class="input-group-prepend"></textarea></p>
+    <p>Введите описание : <textarea name="description" class="input-group-prepend"></textarea></p>
     <p>Введите цену : <input type="text" name="price" class="input-group-prepend"></p>
     <p>Выберите статус : <select id="status" name="status" class="form-control">
         <option value="true">Не продано</option>
@@ -148,7 +147,7 @@
     </c:if>
     <br/>
     <p><img id="image" src="pictures/emptyPhoto.JPG" width="15%" height="15%"></p>
-    <input type="hidden" id="myimage" name="myimage" class="image">
+    <input type="hidden" id="myimage" name="photo" class="image">
     <input type="submit" value="Добавить объявление" name="create" onclick="return checkEmptyPlaces();"
            class="btn btn-default">
 </form>
